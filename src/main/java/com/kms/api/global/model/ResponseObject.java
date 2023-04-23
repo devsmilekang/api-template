@@ -5,6 +5,11 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class ResponseObejct {
+public class ResponseObject<T> {
+
     private Object data;
+
+    public ResponseObject(Object data) {
+        this.data = data;
+    }
 }

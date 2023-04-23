@@ -4,9 +4,8 @@ import com.kms.api.domain.survey.controller.dto.response.SurveyResponseDto;
 import com.kms.api.domain.survey.controller.dto.response.assembler.SurveyResponseDtoAssembelr;
 import com.kms.api.domain.survey.service.SurveyService;
 import com.kms.api.domain.survey.service.vo.SurveyVo;
-import com.kms.api.global.model.BaseObejct;
+import com.kms.api.global.model.ResponseObject;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.java.Log;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,9 +19,9 @@ public class SurveyQueryController {
     private final SurveyService surveyService;
 
     @GetMapping("/surveys/{surveyId}")
-    public BaseObejct<SurveyResponseDto> getSurvey(@PathVariable Long surveyId){
+    public ResponseObject<SurveyResponseDto> getSurvey(@PathVariable Long surveyId){
         SurveyVo survey = surveyService.getSurveyById(surveyId);
-        return new BaseObejct<>(SurveyResponseDtoAssembelr.of(survey));
+        return new ResponseObject<>(SurveyResponseDtoAssembelr.of(survey));
     }
 
 }
