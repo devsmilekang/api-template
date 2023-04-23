@@ -6,6 +6,9 @@ import com.kms.api.domain.survey.service.vo.SurveyVo;
 public class SurveyResponseDtoAssembelr {
 
     public static SurveyResponseDto of(SurveyVo surveyVo) {
+        if(surveyVo == null ){
+            return null;
+        }
         return SurveyResponseDto.builder()
                 .id(surveyVo.getId())
                 .name(surveyVo.getName())
