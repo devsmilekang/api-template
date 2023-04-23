@@ -1,7 +1,8 @@
 plugins {
 	id 'java'
-	id 'org.springframework.boot' version '3.0.6'
+	id 'org.springframework.boot' version '2.6.6'
 	id 'io.spring.dependency-management' version '1.1.0'
+	id "com.epages.restdocs-api-spec" version '0.16.0'
 }
 
 group = 'com.kms'
@@ -27,8 +28,54 @@ dependencies {
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
+	testImplementation 'com.epages:restdocs-api-spec-mockmvc:0.16.0'
 }
 
 tasks.named('test') {
 	useJUnitPlatform()
+}
+
+ext {
+	snippetsDir = file('build/generated-snippets')
+}
+
+test{
+	outputs.dir(snippetsDir)
+}
+
+openapi3 {
+	server = 'https://localhost:8080'
+	title = 'My API'
+	description = 'My API description'
+	version = '0.1.0'
+	format = 'json'
+	outputDirectory = 'build/api-spec'
+}
+
+postman {
+	title = 'My API'
+	version = '0.1.0'
+	baseUrl = 'https://localhost:8080'
+}
+
+sourceSets {
+	main {
+		java {
+			// Jar 파일에 포함할 소스 디렉토리를 지정합니다.
+			srcDirs = ['src/main/java']
+		}
+	}
+}
+jar {
+	// Jar 파일 이름 설정
+	archiveFileName = 'api-template.jar'
+	// Jar 파일에 포함될 소스 파일 지정
+	from sourceSets.main.output
+	// Manifest 설정
+	manifest {
+		attributes(
+				'Main-Class': 'com.kms.api'
+		)
+	}
 }
