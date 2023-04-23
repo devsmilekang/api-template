@@ -6,6 +6,7 @@ import com.kms.api.domain.survey.controller.dto.response.assembler.SurveyRespons
 import com.kms.api.domain.survey.service.SurveyService;
 import com.kms.api.domain.survey.service.vo.SurveyVo;
 import com.kms.api.domain.survey.service.vo.assembler.SurveyVoAssembler;
+import com.kms.api.global.model.BaseObejct;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -20,8 +21,8 @@ public class SurveyCommandController {
     private final SurveyService surveyService;
 
     @PostMapping("/surveys")
-    public SurveyResponseDto createSurvey(@RequestBody SurveyRequestDto surveyRequestDto){
+    public BaseObejct<SurveyResponseDto> createSurvey(@RequestBody SurveyRequestDto surveyRequestDto){
         SurveyVo surveyVo = surveyService.create(SurveyVoAssembler.of(surveyRequestDto));
-        return SurveyResponseDtoAssembelr.of(surveyVo);
+        return new BaseObejct<>(SurveyResponseDtoAssembelr.of(surveyVo));
     }
 }
